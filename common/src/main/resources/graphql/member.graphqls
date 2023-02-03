@@ -1,0 +1,57 @@
+scalar UUID
+
+type Address {
+    street: String!
+    postalCode: String!
+    country: String!
+}
+
+type Person {
+    registrationId: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+}
+
+type Order {
+    orderId: ID!
+    itemOrdered: String!
+    amount: Int!
+    dateOrdered: String!
+    person: Person!
+    address: Address!
+}
+
+type MemberDetails {
+    registrationId: ID!
+    person: Person!
+    address: Address!
+}
+
+input AddressInput {
+    street: String!
+    postalCode: String!
+    country: String!
+}
+
+input PersonInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+}
+
+input RegistrationInput {
+    person: PersonInput!
+    address: AddressInput!
+}
+
+type Query {
+    memberCount: Int
+    memberDetails(registrationId: ID!): MemberDetails
+    orderHistory(registrationId: ID!): [Order]!
+}
+
+type Mutation {
+    register(input: RegistrationInput!) : MemberDetails!
+    orderStickers(registrationId: ID!, amount: Int!) : Order!
+}

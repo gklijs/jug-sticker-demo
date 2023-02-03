@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  axonserver:
+    image: axoniq/axonserver:4.6.8
+    hostname: axonserver
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+    environment:
+      - AXONIQ_AXONSERVER_NAME=sticker_demo
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+
+  mongodb:
+    image: bitnami/mongodb:6.0.4
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGODB_REPLICA_SET_MODE=primary
+      - ALLOW_EMPTY_PASSWORD=yes
+
+
