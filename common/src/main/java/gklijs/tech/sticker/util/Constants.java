@@ -7,5 +7,5 @@ public class Constants {
     }
 
     public static final int DEFAULT_START_CREDITS = 50;
-    public static final int STICKER_PRICE = 30;
+    public static final int STICKER_PRICE = 3;
 }

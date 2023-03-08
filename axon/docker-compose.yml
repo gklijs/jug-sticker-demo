@@ -1,14 +1,79 @@
 version: '3.8'
 services:
-  axonserver:
-    image: axoniq/axonserver:4.6.8
-    hostname: axonserver
+  axonserver-enterprise-1:
+    image: eu.gcr.io/axoniq-devops/axonserver-enterprise:2023.0.0-SNAPSHOT-jdk-17-dev
+    hostname: axonserver-enterprise-1
+    environment:
+      - AXONIQ_AXONSERVER_CLUSTERTEMPLATE_PATH=/axonserver/cluster-template.yml
+      - AXONIQ_AXONSERVER_ENTERPRISE_LICENSE-DIRECTORY=/axonserver
+      - SERVER_PORT=8024
+      - AXONIQ_AXONSERVER_PORT=8124
+      - AXONIQ_AXONSERVER_METRICS_GRPC_ENABLED=true
+      - AXONIQ_AXONSERVER_METRICS_GRPC_PROMETHEUS-ENABLED=true
+      - AXONIQ_AXONSERVER_EXPERIMENTAL_EVENT_TRANSFORMATION=true
+      - AXONIQ_AXONSERVER_TRANSFORMATION_STORAGE=/axonserver/more-events
+    volumes:
+      - axonserver-enterprise-1-log:/axonserver/log
+      - axonserver-enterprise-1-events:/axonserver/events
+      - axonserver-enterprise-1-more-events:/axonserver/more-events
+      - axonserver-enterprise-1-data:/axonserver/data
+      - ./axoniq.license:/axonserver/axoniq.license
     ports:
       - '8024:8024'
       - '8124:8124'
+      - '8224:8224'
+    networks:
+      - axon-net
+
+  axonserver-enterprise-2:
+    image: eu.gcr.io/axoniq-devops/axonserver-enterprise:2023.0.0-SNAPSHOT-jdk-17-dev
+    hostname: axonserver-enterprise-2
     environment:
-      - AXONIQ_AXONSERVER_NAME=sticker_demo
-      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+      - AXONIQ_AXONSERVER_CLUSTERTEMPLATE_PATH=/axonserver/cluster-template.yml
+      - AXONIQ_AXONSERVER_ENTERPRISE_LICENSE-DIRECTORY=/axonserver
+      - SERVER_PORT=8025
+      - AXONIQ_AXONSERVER_PORT=8125
+      - AXONIQ_AXONSERVER_METRICS_GRPC_ENABLED=true
+      - AXONIQ_AXONSERVER_METRICS_GRPC_PROMETHEUS-ENABLED=true
+      - AXONIQ_AXONSERVER_EXPERIMENTAL_EVENT_TRANSFORMATION=true
+      - AXONIQ_AXONSERVER_TRANSFORMATION_STORAGE=/axonserver/more-events
+    volumes:
+      - axonserver-enterprise-2-log:/axonserver/log
+      - axonserver-enterprise-2-events:/axonserver/events
+      - axonserver-enterprise-2-more-events:/axonserver/more-events
+      - axonserver-enterprise-2-data:/axonserver/data
+      - ./axoniq.license:/axonserver/axoniq.license
+    ports:
+      - '8025:8025'
+      - '8125:8125'
+      - '8225:8225'
+    networks:
+      - axon-net
+
+  axonserver-enterprise-3:
+    image: eu.gcr.io/axoniq-devops/axonserver-enterprise:2023.0.0-SNAPSHOT-jdk-17-dev
+    hostname: axonserver-enterprise-3
+    environment:
+      - AXONIQ_AXONSERVER_CLUSTERTEMPLATE_PATH=/axonserver/cluster-template.yml
+      - AXONIQ_AXONSERVER_ENTERPRISE_LICENSE-DIRECTORY=/axonserver
+      - SERVER_PORT=8026
+      - AXONIQ_AXONSERVER_PORT=8126
+      - AXONIQ_AXONSERVER_METRICS_GRPC_ENABLED=true
+      - AXONIQ_AXONSERVER_METRICS_GRPC_PROMETHEUS-ENABLED=true
+      - AXONIQ_AXONSERVER_EXPERIMENTAL_EVENT_TRANSFORMATION=true
+      - AXONIQ_AXONSERVER_TRANSFORMATION_STORAGE=/axonserver/more-events
+    volumes:
+      - axonserver-enterprise-3-log:/axonserver/log
+      - axonserver-enterprise-3-events:/axonserver/events
+      - axonserver-enterprise-3-more-events:/axonserver/more-events
+      - axonserver-enterprise-3-data:/axonserver/data
+      - ./axoniq.license:/axonserver/axoniq.license
+    ports:
+      - '8026:8026'
+      - '8126:8126'
+      - '8226:8226'
+    networks:
+      - axon-net
 
   mongodb:
     image: bitnami/mongodb:6.0.4
@@ -17,5 +82,22 @@ services:
     environment:
       - MONGODB_REPLICA_SET_MODE=primary
       - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - axon-net
 
+volumes:
+  axonserver-enterprise-1-log:
+  axonserver-enterprise-1-events:
+  axonserver-enterprise-1-more-events:
+  axonserver-enterprise-1-data:
+  axonserver-enterprise-2-log:
+  axonserver-enterprise-2-events:
+  axonserver-enterprise-2-more-events:
+  axonserver-enterprise-2-data:
+  axonserver-enterprise-3-log:
+  axonserver-enterprise-3-events:
+  axonserver-enterprise-3-more-events:
+  axonserver-enterprise-3-data:
 
+networks:
+  axon-net:

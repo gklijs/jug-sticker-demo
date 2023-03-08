@@ -17,13 +17,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.4</version>
         <relativePath/>
     </parent>
 
     <properties>
         <testcontainers.version>1.17.6</testcontainers.version>
-        <axon.version>4.7.0</axon.version>
+        <axon.version>4.7.1</axon.version>
     </properties>
 
     <dependencyManagement>

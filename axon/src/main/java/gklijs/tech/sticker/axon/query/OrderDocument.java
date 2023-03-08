@@ -4,6 +4,7 @@ import gklijs.tech.sticker.axon.queries.Order;
 import gklijs.tech.sticker.event_api.Address;
 import gklijs.tech.sticker.event_api.Person;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public record OrderDocument(
         @Id
         UUID orderId,
+        @Indexed
         UUID registrationId,
         String itemOrdered,
         int amount,

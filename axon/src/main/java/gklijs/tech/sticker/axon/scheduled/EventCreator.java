@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 @Component
 public class EventCreator {
@@ -22,13 +23,15 @@ public class EventCreator {
         counter = new AtomicInteger(0);
     }
 
-    @Scheduled(initialDelay = 3000, fixedRate = 5000)
+    @Scheduled(initialDelay = 3000, fixedRate = 40)
     private void orderStickerForBla() {
         int run = counter.incrementAndGet();
         UUID registrationId = UUID.randomUUID();
         Person person = new Person("Bla", "Blabla", "bla" + run + "@bla.com");
         Address address = new Address("Blastraat " + run, "1234AB", "The Netherlands");
         commandGateway.sendAndWait(new RegisterMemberCommand(registrationId, person, address));
-        commandGateway.sendAndWait(new OrderStickerCommand(registrationId, UUID.randomUUID(), 1));
+        IntStream.range(1,6).forEach(
+                amount -> commandGateway.send(new OrderStickerCommand(registrationId, UUID.randomUUID(), amount))
+        );
     }
 }
